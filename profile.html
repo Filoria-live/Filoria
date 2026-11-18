@@ -1,1 +1,133 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050805">
+<title>Failoria ID — Профиль</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;background:#050805;color:#eaffea;
+  font-family:Arial,sans-serif;display:flex;align-items:center;
+  justify-content:center;padding:20px
+}
+.card{
+  width:100%;max-width:420px;background:#0b120b;
+  border:1px solid #174d20;border-radius:18px;padding:28px;
+  box-shadow:0 0 30px #00ff3018
+}
+.logo{color:#39ff59;font-size:13px;letter-spacing:3px}
+h1{margin:12px 0 24px;font-size:27px}
+.avatar{
+  width:76px;height:76px;border-radius:50%;
+  background:#123b19;border:2px solid #39ff59;
+  display:flex;align-items:center;justify-content:center;
+  color:#39ff59;font-size:32px;margin-bottom:22px
+}
+.item{
+  background:#101b10;border:1px solid #203b20;
+  border-radius:10px;padding:13px;margin:12px 0;
+  overflow-wrap:anywhere
+}
+.label{color:#82a882;font-size:12px;margin-bottom:7px}
+.value{font-size:15px}
+button{
+  width:100%;padding:14px;margin-top:20px;
+  background:#39ff59;color:#041006;border:0;
+  border-radius:10px;font-weight:bold;font-size:15px
+}
+#status{color:#8ebd8e;font-size:13px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">FAILORIA ID</div>
+  <h1>Личный кабинет</h1>
+  <div class="avatar" id="avatar">?</div>
+
+  <div class="item">
+    <div class="label">ИМЯ ПОЛЬЗОВАТЕЛЯ</div>
+    <div class="value" id="username">Загрузка...</div>
+  </div>
+
+  <div class="item">
+    <div class="label">ЭЛЕКТРОННАЯ ПОЧТА</div>
+    <div class="value" id="email">Загрузка...</div>
+  </div>
+
+  <div class="item">
+    <div class="label">ID АККАУНТА</div>
+    <div class="value" id="uid">Загрузка...</div>
+  </div>
+
+  <button id="logout">Выйти из аккаунта</button>
+  <div id="status"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,onAuthStateChanged,signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore,doc,getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBkvQ49TJLLTAzLdRXzFMLh_0za8-07cRY",
+  authDomain: "filoria-8cf9f.firebaseapp.com",
+  projectId: "filoria-8cf9f",
+  storageBucket: "filoria-8cf9f.firebasestorage.app",
+  messagingSenderId: "974748954017",
+  appId: "1:974748954017:web:626fe05cf5a7df5485afe0",
+  measurementId: "G-7N8D3GMNZM"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const usernameEl = document.getElementById("username");
+const emailEl = document.getElementById("email");
+const uidEl = document.getElementById("uid");
+const avatarEl = document.getElementById("avatar");
+const statusEl = document.getElementById("status");
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    location.href = "login.html";
+    return;
+  }
+
+  emailEl.textContent = user.email || "Не указана";
+  uidEl.textContent = user.uid;
+
+  try {
+    const profile = await getDoc(doc(db, "users", user.uid));
+
+    const username = profile.exists()
+      ? profile.data().username
+      : user.displayName || "Пользователь";
+
+    usernameEl.textContent = username;
+    avatarEl.textContent = username.charAt(0).toUpperCase();
+  } catch (error) {
+    usernameEl.textContent = user.displayName || "Пользователь";
+    avatarEl.textContent = "?";
+    statusEl.textContent = "Не удалось загрузить дополнительные данные профиля.";
+  }
+});
+
+document.getElementById("logout").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    location.href = "login.html";
+  } catch (error) {
+    statusEl.textContent = "Не удалось выйти. Попробуй ещё раз.";
+  }
+});
+</script>
+</body>
+</html>
