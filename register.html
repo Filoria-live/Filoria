@@ -5,208 +5,103 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050805">
-<title>Регистрация — FAILORIA ID</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Регистрация — Failoria ID</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;background:#050805;color:#eaffea;
+ font-family:Arial,sans-serif;display:flex;
+ align-items:center;justify-content:center;padding:20px
 }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #050805;
-  color: #eaffea;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+.card{
+ width:100%;max-width:420px;background:#0b120b;
+ border:1px solid #174d20;border-radius:20px;
+ padding:30px 25px;box-shadow:0 0 35px #00ff3018
 }
-
-.container {
-  width: 100%;
-  max-width: 420px;
-  background: #0b120c;
-  border: 1px solid #174b20;
-  border-radius: 18px;
-  padding: 30px 24px;
-  box-shadow: 0 0 35px #00ff4110;
+.logo{color:#39ff59;letter-spacing:5px;font-size:13px;text-align:center}
+.symbol{text-align:center;font-size:65px;font-weight:bold;color:#39ff59;margin:15px}
+h1{text-align:center;font-size:27px;margin:10px 0}
+.subtitle{text-align:center;color:#91a991;font-size:14px;margin-bottom:25px}
+label{display:block;font-size:13px;color:#9cbd9c;margin:15px 0 7px}
+input{
+ width:100%;padding:14px;background:#101b10;
+ border:1px solid #294b29;border-radius:9px;
+ color:white;font-size:15px;outline:none
 }
-
-.logo {
-  text-align: center;
-  color: #00ff41;
-  font-size: 30px;
-  font-weight: bold;
-  letter-spacing: 3px;
-  text-shadow: 0 0 15px #00ff41;
+input:focus{border-color:#39ff59}
+button{
+ width:100%;padding:15px;margin-top:22px;
+ background:#39ff59;color:#041006;border:0;
+ border-radius:10px;font-weight:bold;font-size:15px
 }
-
-.subtitle {
-  text-align: center;
-  color: #78947c;
-  font-size: 12px;
-  letter-spacing: 3px;
-  margin: 10px 0 30px;
-}
-
-h2 {
-  text-align: center;
-  font-size: 21px;
-  margin-bottom: 25px;
-}
-
-label {
-  display: block;
-  color: #9eb7a1;
-  font-size: 13px;
-  margin: 15px 0 7px;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 9px;
-  border: 1px solid #244b2a;
-  background: #050a06;
-  color: white;
-  outline: none;
-  font-size: 15px;
-}
-
-input:focus {
-  border-color: #00ff41;
-  box-shadow: 0 0 8px #00ff4130;
-}
-
-button {
-  width: 100%;
-  margin-top: 25px;
-  padding: 15px;
-  background: #00d936;
-  border: none;
-  border-radius: 9px;
-  color: #001b08;
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: .5;
-}
-
-.message {
-  margin-top: 17px;
-  text-align: center;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #ff7777;
-}
-
-.bottom {
-  text-align: center;
-  color: #78947c;
-  font-size: 13px;
-  margin-top: 24px;
-}
-
-.bottom a {
-  color: #00ff41;
-  text-decoration: none;
-}
-
-.footer {
-  text-align: center;
-  color: #415a45;
-  font-size: 11px;
-  margin-top: 25px;
-}
+button:disabled{opacity:.6}
+.bottom{text-align:center;margin-top:22px;font-size:14px;color:#91a991}
+a{color:#39ff59;text-decoration:none}
+#message{font-size:13px;text-align:center;margin-top:15px;line-height:1.5}
 </style>
 </head>
 
 <body>
+<div class="card">
+ <div class="logo">FAILORIA ID</div>
+ <div class="symbol">F</div>
+ <h1>Создать аккаунт</h1>
+ <div class="subtitle">Твой единый аккаунт для проектов Файлории</div>
 
-<div class="container">
+ <form id="registerForm">
+  <label for="username">Имя пользователя</label>
+  <input id="username" type="text" minlength="3" maxlength="20"
+   placeholder="Например, User123" required>
 
-  <div class="logo">FAILORIA</div>
-  <div class="subtitle">ЕДИНАЯ СИСТЕМА АККАУНТОВ</div>
+  <label for="email">Электронная почта</label>
+  <input id="email" type="email" placeholder="name@example.com" required>
 
-  <h2>Создать аккаунт</h2>
+  <label for="password">Пароль</label>
+  <input id="password" type="password" minlength="6"
+   placeholder="Минимум 6 символов" required>
 
-  <form id="registerForm">
+  <label for="repeatPassword">Повтори пароль</label>
+  <input id="repeatPassword" type="password"
+   placeholder="Повтори пароль" required>
 
-    <label for="username">Имя пользователя</label>
-    <input id="username" type="text"
-      placeholder="Например, dima"
-      minlength="3" maxlength="20"
-      autocomplete="username" required>
+  <button id="submitButton" type="submit">Зарегистрироваться</button>
+ </form>
 
-    <label for="email">Электронная почта</label>
-    <input id="email" type="email"
-      placeholder="example@mail.com"
-      autocomplete="email" required>
+ <div id="message"></div>
 
-    <label for="password">Пароль</label>
-    <input id="password" type="password"
-      placeholder="Минимум 8 символов"
-      minlength="8"
-      autocomplete="new-password" required>
-
-    <label for="confirmPassword">Повторите пароль</label>
-    <input id="confirmPassword" type="password"
-      placeholder="Введите пароль ещё раз"
-      minlength="8"
-      autocomplete="new-password" required>
-
-    <button id="submitButton" type="submit">
-      СОЗДАТЬ АККАУНТ
-    </button>
-
-  </form>
-
-  <div id="message" class="message"></div>
-
-  <div class="bottom">
-    Уже есть аккаунт? <a href="login.html">Войти</a>
-  </div>
-
-  <div class="footer">
-    FAILORIA ID © 2026
-  </div>
-
+ <div class="bottom">
+  Уже есть аккаунт? <a href="login.html">Войти</a>
+ </div>
+ <div class="bottom">
+  <a href="index.html">На главную</a>
+ </div>
 </div>
 
 <script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile
-} from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+ getAuth,
+ createUserWithEmailAndPassword,
+ updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  serverTimestamp
-} from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ getFirestore,
+ doc,
+ setDoc,
+ serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyBkvQ49TJLLTAzLdRXzFMLh_0za8-07cRY",
-  authDomain: "filoria-8cf9f.firebaseapp.com",
-  projectId: "filoria-8cf9f",
-  storageBucket: "filoria-8cf9f.firebasestorage.app",
-  messagingSenderId: "974748954017",
-  appId: "1:974748954017:web:626fe05cf5a7df5485afe0",
-  measurementId: "G-7N8D3GMNZM"
+ apiKey: "AIzaSyBkvQ49TJLLTAzLdRXzFMLh_0za8-07cRY",
+ authDomain: "filoria-8cf9f.firebaseapp.com",
+ projectId: "filoria-8cf9f",
+ storageBucket: "filoria-8cf9f.firebasestorage.app",
+ messagingSenderId: "974748954017",
+ appId: "1:974748954017:web:626fe05cf5a7df5485afe0",
+ measurementId: "G-7N8D3GMNZM"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -218,85 +113,79 @@ const message = document.getElementById("message");
 const button = document.getElementById("submitButton");
 
 form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+ event.preventDefault();
 
-  const username = document.getElementById("username")
-    .value.trim();
+ const username = document.getElementById("username").value.trim();
+ const email = document.getElementById("email").value.trim();
+ const password = document.getElementById("password").value;
+ const repeatPassword = document.getElementById("repeatPassword").value;
 
-  const email = document.getElementById("email")
-    .value.trim();
+ if (username.length < 3 || username.length > 20) {
+  message.textContent = "Имя должно содержать от 3 до 20 символов.";
+  message.style.color = "#ff7777";
+  return;
+ }
 
-  const password = document.getElementById("password")
-    .value;
+ if (!/^[a-zA-Zа-яА-ЯёЁ0-9_-]+$/.test(username)) {
+  message.textContent = "Используй буквы, цифры, _ или -.";
+  message.style.color = "#ff7777";
+  return;
+ }
 
-  const confirmPassword = document.getElementById("confirmPassword")
-    .value;
+ if (password !== repeatPassword) {
+  message.textContent = "Пароли не совпадают.";
+  message.style.color = "#ff7777";
+  return;
+ }
+
+ button.disabled = true;
+ button.textContent = "Создаём аккаунт...";
+ message.textContent = "Пожалуйста, подожди...";
+ message.style.color = "#91a991";
+
+ try {
+  const result = await createUserWithEmailAndPassword(
+   auth, email, password
+  );
+
+  const user = result.user;
+
+  await updateProfile(user, {
+   displayName: username
+  });
+
+  await setDoc(doc(db, "users", user.uid), {
+   uid: user.uid,
+   username: username,
+   email: user.email,
+   photoURL: "",
+   createdAt: serverTimestamp()
+  });
+
+  message.style.color = "#39ff59";
+  message.textContent = "Аккаунт создан! Перенаправляем...";
+
+  location.replace("profile.html");
+
+ } catch (error) {
+  console.error(error);
+
+  const errors = {
+   "auth/email-already-in-use": "Эта почта уже зарегистрирована.",
+   "auth/invalid-email": "Неправильный адрес почты.",
+   "auth/weak-password": "Пароль слишком простой.",
+   "auth/network-request-failed": "Проверь подключение к интернету.",
+   "permission-denied": "Нет разрешения на сохранение профиля в базе."
+  };
 
   message.style.color = "#ff7777";
+  message.textContent =
+   errors[error.code] || "Ошибка: " + error.message;
 
-  if (!/^[\p{L}\p{N}_-]{3,20}$/u.test(username)) {
-    message.textContent =
-      "Имя: 3–20 символов, буквы, цифры, _ или -";
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    message.textContent = "Пароли не совпадают.";
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = "СОЗДАЁМ АККАУНТ...";
-
-  try {
-    const result = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    await updateProfile(result.user, {
-      displayName: username
-    });
-
-    await setDoc(doc(db, "users", result.user.uid), {
-      uid: result.user.uid,
-      username: username,
-      email: email,
-      photoURL: "",
-      createdAt: serverTimestamp()
-    });
-
-    message.style.color = "#00ff41";
-    message.textContent =
-      "Аккаунт успешно создан! Добро пожаловать в Файорию.";
-
-    form.reset();
-
-  } catch (error) {
-    const errors = {
-      "auth/email-already-in-use":
-        "Эта почта уже зарегистрирована.",
-      "auth/invalid-email":
-        "Неправильный адрес электронной почты.",
-      "auth/weak-password":
-        "Пароль слишком слабый.",
-      "auth/network-request-failed":
-        "Проверь подключение к интернету.",
-      "permission-denied":
-        "Нет разрешения на создание профиля."
-    };
-
-    message.textContent =
-      errors[error.code] ||
-      "Ошибка: " + error.message;
-
-  } finally {
-    button.disabled = false;
-    button.textContent = "СОЗДАТЬ АККАУНТ";
-  }
+  button.disabled = false;
+  button.textContent = "Зарегистрироваться";
+ }
 });
 </script>
-
 </body>
 </html>
