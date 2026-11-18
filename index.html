@@ -1,204 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#050805">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050805">
-<title>файлория</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Failoria ID</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+ box-sizing:border-box;
 }
 
-body {
-  background: #050805;
-  color: #e5eee7;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  overflow: hidden;
+body{
+ margin:0;
+ min-height:100vh;
+ background:#050805;
+ color:#eaffea;
+ font-family:Arial,sans-serif;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
 }
 
-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: .22;
-  z-index: 0;
+main{
+ width:100%;
+ max-width:440px;
+ text-align:center;
+ background:#0b120b;
+ border:1px solid #174d20;
+ border-radius:20px;
+ padding:35px 25px;
+ box-shadow:0 0 35px #00ff3018;
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent,
-    #050805 85%
-  );
-  z-index: 1;
+.logo{
+ font-size:14px;
+ letter-spacing:5px;
+ color:#39ff59;
 }
 
-header {
-  position: relative;
-  z-index: 2;
-  padding: 27px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #183321;
+.symbol{
+ font-size:90px;
+ font-weight:bold;
+ color:#39ff59;
+ margin:20px 0;
+ text-shadow:0 0 25px #39ff5960;
 }
 
-.brand {
-  color: #55ff91;
-  font-size: 19px;
-  font-weight: bold;
-  letter-spacing: 4px;
-  text-shadow: 0 0 12px #00ff66;
+h1{
+ font-size:30px;
+ margin:10px 0;
 }
 
-.status {
-  font-size: 10px;
-  color: #68c88b;
-  letter-spacing: 2px;
+p{
+ color:#91a991;
+ line-height:1.6;
 }
 
-main {
-  position: relative;
-  z-index: 2;
-  min-height: 78vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
+a{
+ display:block;
+ padding:15px;
+ margin-top:15px;
+ border-radius:10px;
+ text-decoration:none;
+ font-weight:bold;
+ transition:0.2s;
 }
 
-.logo {
-  font-size: clamp(43px, 11vw, 76px);
-  font-weight: 900;
-  letter-spacing: 9px;
-  color: #70ff9e;
-  text-shadow:
-    0 0 10px #00ff66,
-    0 0 30px #00a844,
-    0 0 65px #006b2b;
+.register{
+ background:#39ff59;
+ color:#041006;
 }
 
-.line {
-  width: 90px;
-  height: 2px;
-  margin: 27px auto;
-  background: #4dff87;
-  box-shadow: 0 0 15px #00ff66;
+.login{
+ border:1px solid #39ff59;
+ color:#39ff59;
 }
 
-.description {
-  color: #a3b5a8;
-  font-size: 14px;
-  letter-spacing: 3px;
-  line-height: 2;
+a:hover{
+ transform:scale(1.03);
 }
 
-.soon {
-  margin-top: 55px;
-  padding: 12px 25px;
-  border: 1px solid #285c39;
-  color: #76d996;
-  font-size: 11px;
-  letter-spacing: 3px;
-  background: rgba(0, 40, 15, .25);
+footer{
+ margin-top:30px;
+ color:#526952;
+ font-size:12px;
 }
-
-footer {
-  position: fixed;
-  bottom: 22px;
-  width: 100%;
-  z-index: 2;
-  text-align: center;
-  color: #53675a;
-  font-size: 10px;
-  letter-spacing: 3px;
-}
-
 </style>
 </head>
 
 <body>
 
-<canvas id="matrix"></canvas>
-<div class="overlay"></div>
-
-<header>
-  <div class="brand">FΛILORIA</div>
-  <div class="status">● ONLINE</div>
-</header>
-
 <main>
-  <div class="logo">ФАЙЛОРИЯ</div>
 
-  <div class="line"></div>
+ <div class="logo">FAILORIA ID</div>
 
-  <div class="description">
-    ТВОЁ ЦИФРОВОЕ ПРОСТРАНСТВО<br>
-    СВОБОДА. ПРОСТОТА. ВОЗМОЖНОСТИ.
-  </div>
+ <div class="symbol">F</div>
 
-  <div class="soon">
-    ПРОЕКТ В РАЗРАБОТКЕ
-  </div>
+ <h1>Файлория</h1>
+
+ <p>Твоё цифровое пространство.</p>
+
+ <a class="register" href="register.html">
+  Регистрация
+ </a>
+
+ <a class="login" href="login.html">
+  Войти в аккаунт
+ </a>
+
+ <footer>
+  FAILORIA ID · 2026
+ </footer>
+
 </main>
-
-<footer>
-  FAILORIA © 2026
-</footer>
-
-<script>
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-let width, height, columns, drops;
-
-function resize() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  columns = Math.floor(width / 18);
-  drops = Array(columns).fill(1);
-}
-
-function draw() {
-  ctx.fillStyle = "rgba(5, 8, 5, 0.09)";
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.fillStyle = "#36ff78";
-  ctx.font = "14px monospace";
-
-  for (let i = 0; i < drops.length; i++) {
-    const char = Math.random() > 0.5 ? "1" : "0";
-
-    ctx.fillText(char, i * 18, drops[i] * 18);
-
-    if (drops[i] * 18 > height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
-
-    drops[i]++;
-  }
-
-  requestAnimationFrame(draw);
-}
-
-window.addEventListener("resize", resize);
-resize();
-draw();
-</script>
 
 </body>
 </html>
