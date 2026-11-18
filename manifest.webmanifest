@@ -1,1 +1,18 @@
 
+{
+  "name": "Файория",
+  "short_name": "Файория",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050805",
+  "theme_color": "#050805",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
+
