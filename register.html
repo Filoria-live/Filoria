@@ -20,7 +20,10 @@ body{
  padding:30px 25px;box-shadow:0 0 35px #00ff3018
 }
 .logo{color:#39ff59;letter-spacing:5px;font-size:13px;text-align:center}
-.symbol{text-align:center;font-size:65px;font-weight:bold;color:#39ff59;margin:15px}
+.symbol{
+ text-align:center;font-size:65px;font-weight:bold;
+ color:#39ff59;margin:15px;text-shadow:0 0 25px #39ff5960
+}
 h1{text-align:center;font-size:27px;margin:10px 0}
 .subtitle{text-align:center;color:#91a991;font-size:14px;margin-bottom:25px}
 label{display:block;font-size:13px;color:#9cbd9c;margin:15px 0 7px}
@@ -79,7 +82,7 @@ a{color:#39ff59;text-decoration:none}
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
  getAuth,
@@ -112,75 +115,83 @@ const form = document.getElementById("registerForm");
 const message = document.getElementById("message");
 const button = document.getElementById("submitButton");
 
-form.addEventListener("submit", async (event) => {
+function showMessage(text,color){
+ message.textContent = text;
+ message.style.color = color;
+}
+
+form.addEventListener("submit", async (event)=>{
  event.preventDefault();
+
+ if(button.disabled) return;
 
  const username = document.getElementById("username").value.trim();
  const email = document.getElementById("email").value.trim();
  const password = document.getElementById("password").value;
  const repeatPassword = document.getElementById("repeatPassword").value;
 
- if (username.length < 3 || username.length > 20) {
-  message.textContent = "Имя должно содержать от 3 до 20 символов.";
-  message.style.color = "#ff7777";
+ if(username.length < 3 || username.length > 20){
+  showMessage("Имя должно содержать от 3 до 20 символов.","#ff7777");
   return;
  }
 
- if (!/^[a-zA-Zа-яА-ЯёЁ0-9_-]+$/.test(username)) {
-  message.textContent = "Используй буквы, цифры, _ или -.";
-  message.style.color = "#ff7777";
+ if(!/^[a-zA-Zа-яА-ЯёЁ0-9_-]+$/.test(username)){
+  showMessage("Используй буквы, цифры, _ или -.","#ff7777");
   return;
  }
 
- if (password !== repeatPassword) {
-  message.textContent = "Пароли не совпадают.";
-  message.style.color = "#ff7777";
+ if(password !== repeatPassword){
+  showMessage("Пароли не совпадают.","#ff7777");
   return;
  }
 
  button.disabled = true;
  button.textContent = "Создаём аккаунт...";
- message.textContent = "Пожалуйста, подожди...";
- message.style.color = "#91a991";
+ showMessage("Создаём твой Failoria ID...","#91a991");
 
- try {
+ try{
   const result = await createUserWithEmailAndPassword(
-   auth, email, password
+   auth,email,password
   );
 
   const user = result.user;
 
-  await updateProfile(user, {
+  await updateProfile(user,{
    displayName: username
   });
 
-  await setDoc(doc(db, "users", user.uid), {
-   uid: user.uid,
-   username: username,
-   email: user.email,
-   photoURL: "",
-   createdAt: serverTimestamp()
-  });
+  showMessage("Аккаунт создан! Сохраняем профиль...","#39ff59");
 
-  message.style.color = "#39ff59";
-  message.textContent = "Аккаунт создан! Перенаправляем...";
+  try{
+   await setDoc(doc(db,"users",user.uid),{
+    uid:user.uid,
+    username:username,
+    email:user.email,
+    photoURL:"",
+    createdAt:serverTimestamp()
+   });
+  }catch(profileError){
+   console.error("Ошибка сохранения профиля:",profileError);
+  }
 
-  location.replace("profile.html");
+  showMessage("Добро пожаловать! Переходим в кабинет...","#39ff59");
 
- } catch (error) {
+  window.location.assign(
+   new URL("profile.html",window.location.href).href
+  );
+
+ }catch(error){
   console.error(error);
 
   const errors = {
-   "auth/email-already-in-use": "Эта почта уже зарегистрирована.",
-   "auth/invalid-email": "Неправильный адрес почты.",
-   "auth/weak-password": "Пароль слишком простой.",
-   "auth/network-request-failed": "Проверь подключение к интернету.",
-   "permission-denied": "Нет разрешения на сохранение профиля в базе."
+   "auth/email-already-in-use":"Эта почта уже зарегистрирована. Войди в аккаунт.",
+   "auth/invalid-email":"Неправильный адрес почты.",
+   "auth/weak-password":"Пароль слишком простой.",
+   "auth/network-request-failed":"Проверь подключение к интернету.",
+   "auth/operation-not-allowed":"В Firebase не включена регистрация по почте."
   };
 
-  message.style.color = "#ff7777";
-  message.textContent =
-   errors[error.code] || "Ошибка: " + error.message;
+  showMessage(errors[error.code] || "Ошибка: "+error.message,"#ff7777");
 
   button.disabled = false;
   button.textContent = "Зарегистрироваться";
