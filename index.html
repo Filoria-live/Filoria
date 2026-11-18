@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,114 +8,81 @@
 <title>Failoria ID</title>
 
 <style>
-*{
- box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
- margin:0;
- min-height:100vh;
- background:#050805;
- color:#eaffea;
- font-family:Arial,sans-serif;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:20px;
+ margin:0;min-height:100vh;background:#050805;color:#eaffea;
+ font-family:Arial,sans-serif;display:flex;
+ align-items:center;justify-content:center;padding:20px
 }
-
 main{
- width:100%;
- max-width:440px;
- text-align:center;
- background:#0b120b;
- border:1px solid #174d20;
- border-radius:20px;
- padding:35px 25px;
- box-shadow:0 0 35px #00ff3018;
+ width:100%;max-width:440px;text-align:center;
+ background:#0b120b;border:1px solid #174d20;
+ border-radius:20px;padding:35px 25px;
+ box-shadow:0 0 35px #00ff3018
 }
-
-.logo{
- font-size:14px;
- letter-spacing:5px;
- color:#39ff59;
-}
-
+.logo{font-size:14px;letter-spacing:5px;color:#39ff59}
 .symbol{
- font-size:90px;
- font-weight:bold;
- color:#39ff59;
- margin:20px 0;
- text-shadow:0 0 25px #39ff5960;
+ font-size:90px;font-weight:bold;color:#39ff59;
+ margin:20px 0;text-shadow:0 0 25px #39ff5960
 }
-
-h1{
- font-size:30px;
- margin:10px 0;
-}
-
-p{
- color:#91a991;
- line-height:1.6;
-}
-
+h1{font-size:30px;margin:10px 0}
+p{color:#91a991;line-height:1.6}
 a{
- display:block;
- padding:15px;
- margin-top:15px;
- border-radius:10px;
- text-decoration:none;
- font-weight:bold;
- transition:0.2s;
+ display:block;padding:15px;margin-top:15px;
+ border-radius:10px;text-decoration:none;font-weight:bold
 }
-
-.register{
- background:#39ff59;
- color:#041006;
-}
-
-.login{
- border:1px solid #39ff59;
- color:#39ff59;
-}
-
-a:hover{
- transform:scale(1.03);
-}
-
-footer{
- margin-top:30px;
- color:#526952;
- font-size:12px;
-}
+.register{background:#39ff59;color:#041006}
+.login{border:1px solid #39ff59;color:#39ff59}
+footer{margin-top:30px;color:#526952;font-size:12px}
+#status{color:#91a991;font-size:13px;margin-top:20px}
 </style>
 </head>
 
 <body>
-
 <main>
-
  <div class="logo">FAILORIA ID</div>
-
  <div class="symbol">F</div>
-
  <h1>Файлория</h1>
-
  <p>Твоё цифровое пространство.</p>
 
- <a class="register" href="register.html">
-  Регистрация
- </a>
+ <div id="buttons">
+  <a class="register" href="register.html">Регистрация</a>
+  <a class="login" href="login.html">Войти в аккаунт</a>
+ </div>
 
- <a class="login" href="login.html">
-  Войти в аккаунт
- </a>
-
- <footer>
-  FAILORIA ID · 2026
- </footer>
-
+ <div id="status">Проверяем аккаунт...</div>
+ <footer>FAILORIA ID · 2026</footer>
 </main>
 
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+ getAuth,onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyBkvQ49TJLLTAzLdRXzFMLh_0za8-07cRY",
+ authDomain: "filoria-8cf9f.firebaseapp.com",
+ projectId: "filoria-8cf9f",
+ storageBucket: "filoria-8cf9f.firebasestorage.app",
+ messagingSenderId: "974748954017",
+ appId: "1:974748954017:web:626fe05cf5a7df5485afe0",
+ measurementId: "G-7N8D3GMNZM"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+ if(user){
+  document.getElementById("status").textContent =
+   "Аккаунт найден! Переходим...";
+  location.replace("https://filoria-45j.pages.dev/");
+ }else{
+  document.getElementById("status").textContent =
+   "Войди или создай аккаунт.";
+ }
+});
+</script>
 </body>
 </html>
