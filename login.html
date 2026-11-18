@@ -1,1 +1,225 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050805">
+<title>Вход — FAILORIA ID</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #050805;
+  color: #eaffea;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  background: #0b120c;
+  border: 1px solid #174b20;
+  border-radius: 18px;
+  padding: 30px 24px;
+  box-shadow: 0 0 35px #00ff4110;
+}
+
+.logo {
+  text-align: center;
+  color: #00ff41;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px #00ff41;
+}
+
+.subtitle {
+  text-align: center;
+  color: #78947c;
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin: 10px 0 30px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 21px;
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  color: #9eb7a1;
+  font-size: 13px;
+  margin: 15px 0 7px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 9px;
+  border: 1px solid #244b2a;
+  background: #050a06;
+  color: white;
+  outline: none;
+  font-size: 15px;
+}
+
+input:focus {
+  border-color: #00ff41;
+  box-shadow: 0 0 8px #00ff4130;
+}
+
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  background: #00d936;
+  border: none;
+  border-radius: 9px;
+  color: #001b08;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:disabled { opacity: .5; }
+
+.message {
+  margin-top: 17px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ff7777;
+}
+
+.bottom {
+  text-align: center;
+  color: #78947c;
+  font-size: 13px;
+  margin-top: 24px;
+}
+
+.bottom a {
+  color: #00ff41;
+  text-decoration: none;
+}
+
+.footer {
+  text-align: center;
+  color: #415a45;
+  font-size: 11px;
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="logo">FAILORIA</div>
+  <div class="subtitle">ЕДИНАЯ СИСТЕМА АККАУНТОВ</div>
+
+  <h2>Вход в аккаунт</h2>
+
+  <form id="loginForm">
+    <label for="email">Электронная почта</label>
+    <input id="email" type="email"
+      placeholder="example@mail.com"
+      autocomplete="email" required>
+
+    <label for="password">Пароль</label>
+    <input id="password" type="password"
+      placeholder="Ваш пароль"
+      autocomplete="current-password" required>
+
+    <button id="submitButton" type="submit">
+      ВОЙТИ
+    </button>
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <div class="bottom">
+    Нет аккаунта? <a href="register.html">Регистрация</a>
+  </div>
+
+  <div class="footer">FAILORIA ID © 2026</div>
+</div>
+
+<script type="module">
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBkvQ49TJLLTAzLdRXzFMLh_0za8-07cRY",
+  authDomain: "filoria-8cf9f.firebaseapp.com",
+  projectId: "filoria-8cf9f",
+  storageBucket: "filoria-8cf9f.firebasestorage.app",
+  messagingSenderId: "974748954017",
+  appId: "1:974748954017:web:626fe05cf5a7df5485afe0",
+  measurementId: "G-7N8D3GMNZM"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const button = document.getElementById("submitButton");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  button.disabled = true;
+  button.textContent = "ВХОДИМ...";
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+
+    message.style.color = "#00ff41";
+    message.textContent = "Вход выполнен! Открываем профиль...";
+
+    setTimeout(() => {
+      window.location.href = "profile.html";
+    }, 700);
+
+  } catch (error) {
+    const errors = {
+      "auth/invalid-credential": "Неверная почта или пароль.",
+      "auth/user-not-found": "Аккаунт не найден.",
+      "auth/wrong-password": "Неверный пароль.",
+      "auth/invalid-email": "Проверь адрес электронной почты.",
+      "auth/network-request-failed": "Проверь интернет-соединение."
+    };
+
+    message.textContent =
+      errors[error.code] || "Ошибка входа: " + error.message;
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "ВОЙТИ";
+  }
+});
+</script>
+</body>
+    </html>
+    
