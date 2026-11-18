@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050805">
 <title>Файория</title>
 
 <style>
@@ -14,75 +15,187 @@
 }
 
 body {
-  min-height: 100vh;
-  background: #050706;
-  color: #d9e5dc;
+  background: #050805;
+  color: #e5eee7;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
   overflow: hidden;
 }
 
-.matrix {
+canvas {
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 0%,
-    rgba(0,255,100,.13), transparent 55%);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  opacity: .22;
+  z-index: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent,
+    #050805 85%
+  );
+  z-index: 1;
 }
 
 header {
-  padding: 35px 25px;
-  text-align: center;
+  position: relative;
+  z-index: 2;
+  padding: 27px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #183321;
 }
 
-.logo {
-  font-size: clamp(34px, 9vw, 58px);
-  font-weight: 800;
-  letter-spacing: 7px;
-  color: #39ff83;
-  text-shadow:
-    0 0 8px #00ff66,
-    0 0 25px rgba(0,255,100,.5);
+.brand {
+  color: #55ff91;
+  font-size: 19px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-shadow: 0 0 12px #00ff66;
 }
 
-.line {
-  width: 75px;
-  height: 2px;
-  background: #27ff75;
-  margin: 18px auto;
-  box-shadow: 0 0 12px #00ff66;
+.status {
+  font-size: 10px;
+  color: #68c88b;
+  letter-spacing: 2px;
 }
 
 main {
   position: relative;
-  min-height: 65vh;
+  z-index: 2;
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.logo {
+  font-size: clamp(43px, 11vw, 76px);
+  font-weight: 900;
+  letter-spacing: 9px;
+  color: #70ff9e;
+  text-shadow:
+    0 0 10px #00ff66,
+    0 0 30px #00a844,
+    0 0 65px #006b2b;
+}
+
+.line {
+  width: 90px;
+  height: 2px;
+  margin: 27px auto;
+  background: #4dff87;
+  box-shadow: 0 0 15px #00ff66;
+}
+
+.description {
+  color: #a3b5a8;
+  font-size: 14px;
+  letter-spacing: 3px;
+  line-height: 2;
+}
+
+.soon {
+  margin-top: 55px;
+  padding: 12px 25px;
+  border: 1px solid #285c39;
+  color: #76d996;
+  font-size: 11px;
+  letter-spacing: 3px;
+  background: rgba(0, 40, 15, .25);
 }
 
 footer {
   position: fixed;
-  bottom: 20px;
+  bottom: 22px;
   width: 100%;
+  z-index: 2;
   text-align: center;
-  color: #52665a;
-  font-size: 11px;
+  color: #53675a;
+  font-size: 10px;
   letter-spacing: 3px;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="matrix"></div>
+<canvas id="matrix"></canvas>
+<div class="overlay"></div>
 
 <header>
-  <div class="logo">ФАЙЛОРИЯ</div>
-  <div class="line"></div>
+  <div class="brand">FΛILORIA</div>
+  <div class="status">● ONLINE</div>
 </header>
 
-<main></main>
+<main>
+  <div class="logo">ФАЙЛОРИЯ</div>
 
-<footer>ЦИФРОВОЕ ПРОСТРАНСТВО</footer>
+  <div class="line"></div>
+
+  <div class="description">
+    ТВОЁ ЦИФРОВОЕ ПРОСТРАНСТВО<br>
+    СВОБОДА. ПРОСТОТА. ВОЗМОЖНОСТИ.
+  </div>
+
+  <div class="soon">
+    ПРОЕКТ В РАЗРАБОТКЕ
+  </div>
+</main>
+
+<footer>
+  FAILORIA © 2026
+</footer>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+let width, height, columns, drops;
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  columns = Math.floor(width / 18);
+  drops = Array(columns).fill(1);
+}
+
+function draw() {
+  ctx.fillStyle = "rgba(5, 8, 5, 0.09)";
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.fillStyle = "#36ff78";
+  ctx.font = "14px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const char = Math.random() > 0.5 ? "1" : "0";
+
+    ctx.fillText(char, i * 18, drops[i] * 18);
+
+    if (drops[i] * 18 > height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+
+    drops[i]++;
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize", resize);
+resize();
+draw();
+</script>
 
 </body>
 </html>
-
