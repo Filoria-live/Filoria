@@ -1,1 +1,88 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Файория</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #050706;
+  color: #d9e5dc;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.matrix {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%,
+    rgba(0,255,100,.13), transparent 55%);
+  pointer-events: none;
+}
+
+header {
+  padding: 35px 25px;
+  text-align: center;
+}
+
+.logo {
+  font-size: clamp(34px, 9vw, 58px);
+  font-weight: 800;
+  letter-spacing: 7px;
+  color: #39ff83;
+  text-shadow:
+    0 0 8px #00ff66,
+    0 0 25px rgba(0,255,100,.5);
+}
+
+.line {
+  width: 75px;
+  height: 2px;
+  background: #27ff75;
+  margin: 18px auto;
+  box-shadow: 0 0 12px #00ff66;
+}
+
+main {
+  position: relative;
+  min-height: 65vh;
+}
+
+footer {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: #52665a;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="matrix"></div>
+
+<header>
+  <div class="logo">ФАЙЛОРИЯ</div>
+  <div class="line"></div>
+</header>
+
+<main></main>
+
+<footer>ЦИФРОВОЕ ПРОСТРАНСТВО</footer>
+
+</body>
+</html>
+
