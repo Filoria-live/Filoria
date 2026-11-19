@@ -76,6 +76,53 @@ h1{
   font-size:15px
 }
 
+.projects-title{
+  margin:28px 0 14px;
+  font-size:16px;
+  letter-spacing:1px
+}
+
+.projects{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px
+}
+
+.project{
+  aspect-ratio:1;
+  background:linear-gradient(145deg,#142c18,#0b160d);
+  border:1px solid #286b35;
+  border-radius:13px;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-decoration:none;
+  color:#eaffea;
+  transition:.2s
+}
+
+.project:hover{
+  border-color:#39ff59;
+  box-shadow:0 0 18px #39ff5925;
+  transform:translateY(-3px)
+}
+
+.project-icon{
+  font-size:35px
+}
+
+.project-name{
+  font-size:16px;
+  font-weight:bold
+}
+
+.project-description{
+  color:#82a882;
+  font-size:11px;
+  margin-top:5px
+}
+
 button{
   width:100%;
   padding:14px;
@@ -142,6 +189,28 @@ button:disabled{
   <button class="copy-btn" id="copyId" disabled>
     КОПИРОВАТЬ ID
   </button>
+
+  <h2 class="projects-title">МОИ ПРОЕКТЫ</h2>
+
+  <div class="projects">
+
+    <a class="project"
+       href="https://failoriagames.pages.dev"
+       target="_blank"
+       rel="noopener noreferrer">
+
+      <div class="project-icon">🎮</div>
+
+      <div>
+        <div class="project-name">Failoria Games</div>
+        <div class="project-description">
+          Игровая платформа
+        </div>
+      </div>
+
+    </a>
+
+  </div>
 
   <button class="logout-btn" id="logout">
     Выйти из аккаунта
