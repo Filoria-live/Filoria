@@ -162,7 +162,10 @@ import { initializeApp } from
 
 import {
   getAuth,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged
 } from
   "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -183,6 +186,14 @@ const form = document.getElementById("loginForm");
 const message = document.getElementById("message");
 const button = document.getElementById("submitButton");
 
+// Проверяем, есть ли уже авторизованный пользователь
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.replace("profile.html");
+  }
+});
+
+// Вход
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -191,16 +202,18 @@ form.addEventListener("submit", async (event) => {
 
   button.disabled = true;
   button.textContent = "ВХОДИМ...";
+  message.textContent = "";
 
   try {
+    // Сохраняем авторизацию между посещениями
+    await setPersistence(auth, browserLocalPersistence);
+
     await signInWithEmailAndPassword(auth, email, password);
 
     message.style.color = "#00ff41";
     message.textContent = "Вход выполнен! Открываем профиль...";
 
-    setTimeout(() => {
-      window.location.href = "profile.html";
-    }, 700);
+    window.location.replace("profile.html");
 
   } catch (error) {
     const errors = {
@@ -208,18 +221,17 @@ form.addEventListener("submit", async (event) => {
       "auth/user-not-found": "Аккаунт не найден.",
       "auth/wrong-password": "Неверный пароль.",
       "auth/invalid-email": "Проверь адрес электронной почты.",
-      "auth/network-request-failed": "Проверь интернет-соединение."
+      "auth/network-request-failed": "Проверь интернет-соединение.",
+      "auth/operation-not-allowed": "Вход временно недоступен."
     };
 
     message.textContent =
       errors[error.code] || "Ошибка входа: " + error.message;
 
-  } finally {
     button.disabled = false;
     button.textContent = "ВОЙТИ";
   }
 });
 </script>
 </body>
-    </html>
-    
+</html>
