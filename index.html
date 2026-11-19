@@ -33,6 +33,7 @@ a{
 }
 .register{background:#39ff59;color:#041006}
 .login{border:1px solid #39ff59;color:#39ff59}
+.profile{background:#39ff59;color:#041006}
 footer{margin-top:30px;color:#526952;font-size:12px}
 #status{color:#91a991;font-size:13px;margin-top:20px}
 </style>
@@ -45,19 +46,22 @@ footer{margin-top:30px;color:#526952;font-size:12px}
  <h1>Файлория</h1>
  <p>Твоё цифровое пространство.</p>
 
- <div id="buttons">
+ <div id="buttons" style="display:none">
   <a class="register" href="register.html">Регистрация</a>
   <a class="login" href="login.html">Войти в аккаунт</a>
  </div>
 
  <div id="status">Проверяем аккаунт...</div>
+
  <footer>FAILORIA ID · 2026</footer>
 </main>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
- getAuth,onAuthStateChanged
+ getAuth,
+ onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -73,15 +77,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+const buttons = document.getElementById("buttons");
+const status = document.getElementById("status");
+
 onAuthStateChanged(auth, (user) => {
+
  if(user){
-  document.getElementById("status").textContent =
-   "Аккаунт найден! Переходим...";
-  location.replace("https://filoria-45j.pages.dev/");
+  status.textContent = "Аккаунт найден!";
+
+  buttons.innerHTML = `
+   <a class="profile" href="profile.html">Личный кабинет</a>
+  `;
+
+  buttons.style.display = "block";
+
  }else{
-  document.getElementById("status").textContent =
-   "Войди или создай аккаунт.";
+  status.textContent = "Войди или создай аккаунт.";
+  buttons.style.display = "block";
  }
+
 });
 </script>
 </body>
